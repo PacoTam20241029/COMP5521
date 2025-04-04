@@ -12,6 +12,9 @@ export const getContracts = async (signer) => {
 
       const token0 = new ethers.Contract(addresses.token0, abis.NewToken, signer);
       const token1 = new ethers.Contract(addresses.token1, abis.NewToken, signer);
+      const token2 = new ethers.Contract(addresses.token2, abis.NewToken, signer);
+      const token3 = new ethers.Contract(addresses.token3, abis.NewToken, signer);
+      const token4 = new ethers.Contract(addresses.token4, abis.NewToken, signer);
       const pool = new ethers.Contract(addresses.pool, abis.Pool, signer);
 
       const contracts = {
@@ -23,6 +26,18 @@ export const getContracts = async (signer) => {
               contract: token1,
               address: addresses.token1
           },
+          token2: {
+              contract: token2,
+              address: addresses.token2
+          },
+          token3: {
+            contract: token3,
+            address: addresses.token3
+        },
+          token4: {
+            contract: token4,
+            address: addresses.token4
+        },
           pool: {
               contract: pool,
               address: addresses.pool
@@ -32,6 +47,9 @@ export const getContracts = async (signer) => {
       console.log("Contracts initialized with addresses:", {
           token0: contracts.token0.address,
           token1: contracts.token1.address,
+          token2: contracts.token2.address,
+          token3: contracts.token3.address,
+          token4: contracts.token4.address,
           pool: contracts.pool.address
       });
 
@@ -46,9 +64,15 @@ export const getTokenBalances = async (contracts, address) => {
     try {
         const token0Balance = await contracts.token0.contract.balanceOf(address);
         const token1Balance = await contracts.token1.contract.balanceOf(address);
+        const token2Balance = await contracts.token2.contract.balanceOf(address);
+        const token3Balance = await contracts.token3.contract.balanceOf(address);
+        const token4Balance = await contracts.token4.contract.balanceOf(address);
         return {
             token0: ethers.formatEther(token0Balance),
-            token1: ethers.formatEther(token1Balance)
+            token1: ethers.formatEther(token1Balance),
+            token2: ethers.formatEther(token2Balance),
+            token3: ethers.formatEther(token3Balance),
+            token4: ethers.formatEther(token4Balance),
         };
     } catch (error) {
         console.error("Error in getTokenBalances:", error);
@@ -61,10 +85,16 @@ export const getPoolInfo = async (contracts) => {
   try {
       const token0Balance = await contracts.token0.contract.balanceOf(contracts.pool.address);
       const token1Balance = await contracts.token1.contract.balanceOf(contracts.pool.address);
+      const token2Balance = await contracts.token2.contract.balanceOf(contracts.pool.address);
+      const token3Balance = await contracts.token3.contract.balanceOf(contracts.pool.address);
+      const token4Balance = await contracts.token4.contract.balanceOf(contracts.pool.address);
       
       return {
           token0Balance: ethers.formatEther(token0Balance),
-          token1Balance: ethers.formatEther(token1Balance)
+          token1Balance: ethers.formatEther(token1Balance),
+          token2Balance: ethers.formatEther(token2Balance),
+          token3Balance: ethers.formatEther(token3Balance),
+          token4Balance: ethers.formatEther(token4Balance),
       };
   } catch (error) {
       console.error("Error in getPoolInfo:", error);

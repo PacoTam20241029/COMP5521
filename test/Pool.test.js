@@ -104,6 +104,10 @@ describe("Pool Contract", function () {
         .withArgs(expectedLP, token0.getAddress(), addAmount0, token1.getAddress(), addAmount0*2n);
     });
 
+    
+
+    
+
     it("should revert when adding zero liquidity", async function () {
       await expect(pool.connect(user).addLiquidity(0))
         .to.be.revertedWith("Amount must be greater than 0");
@@ -149,6 +153,7 @@ describe("Pool Contract", function () {
       await expect(pool.connect(user).swap(token0.getAddress(), 0, token1.getAddress()))
         .to.be.revertedWith("Zero amount");
     });
+    
   });
 
   describe("getRequiredAmount1", function () {

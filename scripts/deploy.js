@@ -19,11 +19,29 @@ async function main() {
   await token1.waitForDeployment();
   console.log("Beta deployed to:", await token1.getAddress());
 
+  // Deploy Poly
+  const token2 = await NewToken.deploy("Poly", "POLY");
+  await token2.waitForDeployment();
+  console.log("Poly deployed to:", await token2.getAddress());
+
+    // Deploy UST
+  const token3 = await NewToken.deploy("ust", "UST");
+  await token3.waitForDeployment();
+  console.log("UST deployed to:", await token3.getAddress());
+
+  // Deploy X
+  const token4 = await NewToken.deploy("x", "X");
+  await token4.waitForDeployment();
+  console.log("X deployed to:", await token4.getAddress());
+
   // Deploy the Pool
   const Pool = await hre.ethers.getContractFactory("Pool");
   const pool = await Pool.deploy(
     await token0.getAddress(),
-    await token1.getAddress()
+    await token1.getAddress(),
+    await token2.getAddress(),
+    await token3.getAddress(),
+    await token4.getAddress()
   );
   await pool.waitForDeployment();
   console.log("Pool deployed to:", await pool.getAddress());
@@ -38,6 +56,9 @@ async function main() {
   const addresses = {
     token0: await token0.getAddress(),
     token1: await token1.getAddress(),
+    token2: await token2.getAddress(),
+    token3: await token3.getAddress(),
+    token4: await token4.getAddress(),
     pool: await pool.getAddress(),
   };
 
