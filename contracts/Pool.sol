@@ -154,9 +154,10 @@ contract Pool is LPToken, ReentrancyGuard {
 
         require(balanceIn > 0, "Insufficient input amount");
         require(amountIn > 0 && balanceOut > 0, "Insufficient liquidity");
-
-        uint256 amountInWithFee = amountIn * 99; // 0.3% fee
-        uint256 amountOut = (balanceOut * amountIn)+ amountInWithFee / (balanceIn + amountIn);
+        
+        uint256 amountOut = (balanceOut * amountIn) / (balanceIn + amountIn);
+        //uint256 amountInWithFee = amountIn * 99; // 0.3% fee
+        //uint256 amountOut = (balanceOut * amountIn)+ amountInWithFee / (balanceIn + amountIn);
         return amountOut;
 
     }
