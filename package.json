@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "@openzeppelin/contracts": "^5.2.0",
+    "react-router-dom": "^7.5.0",
     "react-tabs": "^6.1.0"
   }
 }

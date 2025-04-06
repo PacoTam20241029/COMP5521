@@ -71,4 +71,9 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 Install code:
 npm install react-tabs
-
+npm install @mui/lab @mui/material
+npm i react-router-dom
+npm install @mui/material @emotion/react @emotion/styled
+npm install @mui/material @mui/styled-engine-sc styled-components
+npm install @mui/styles
+npm install @mui/icons-material

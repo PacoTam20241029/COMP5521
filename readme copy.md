@@ -24,6 +24,10 @@ npm install web3 ethers react-bootstrap bootstrap
 connect to Hardhat Network
 npx hardhat node
 
+transferDF.js
+npx hardhat run scripts/transferDF.js --network localhost
+
+npx hardhat run scripts/deploy.js --network localhost
 
 ### Transfer Alpha and Beta via Console
 
@@ -32,21 +36,21 @@ npx hardhat console --network localhost
 
 Paco wallet setting
 const NewToken = await hre.ethers.getContractFactory("NewToken");
-const Alpha = NewToken.attach('0x5FbDB2315678afecb367f032d93F642f64180aa3')
+const Alpha = NewToken.attach('0x4A679253410272dd5232B3Ff7cF5dbB88f295319')
 await Alpha.transfer('0xAD92104E54daac94fC64F1FfDd5905fD471de08c', 100000000000000000000000n)
 
 
-const Beta = NewToken.attach('0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512')
+const Beta = NewToken.attach('0x7a2088a1bFc9d81c55368AE168C2C02570cB814F')
 await Beta.transfer('0xAD92104E54daac94fC64F1FfDd5905fD471de08c', 100000000000000000000000n)
 
-const Poly = NewToken.attach('0x0B306BF915C4d645ff596e518fAf3F9669b97016')
+const Poly = NewToken.attach('0x09635F643e140090A9A8Dcd712eD6285858ceBef')
 await Poly.transfer('0xAD92104E54daac94fC64F1FfDd5905fD471de08c', 100000000000000000000000n)
 
-const ust = NewToken.attach('0x4A679253410272dd5232B3Ff7cF5dbB88f295319')
+const ust = NewToken.attach('0xc5a5C42992dECbae36851359345FE25997F5C42d')
 await ust.transfer('0xAD92104E54daac94fC64F1FfDd5905fD471de08c', 100000000000000000000000n)
 
 
-const X = NewToken.attach('0x7a2088a1bFc9d81c55368AE168C2C02570cB814F')
+const X = NewToken.attach('0x67d269191c92Caf3cD7723F116c85e6E9bf55933')
 await X.transfer('0xAD92104E54daac94fC64F1FfDd5905fD471de08c', 100000000000000000000000n)
 
 
@@ -54,3 +58,17 @@ Run the scripts at the workspace directory:
 npx hardhat run scripts/transferPoly.js --network localhost
 npx hardhat run scripts/transferUST.js --network localhost
 npx hardhat run scripts/transferPoly.js --network localhost
+
+
+Presentation
+
+background: part 1 :dapp
+Development tool :point 2 : short for table 
+demonstratie: point 3
+Test : point 4
+
+part6
+ERC20 security issue
+
+learn more: link
+
