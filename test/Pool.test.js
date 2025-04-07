@@ -137,30 +137,38 @@ describe("Pool Contract", function () {
       await pool.connect(user).addLiquidity(ethers.parseEther("100"));
     });
 
-    it("should swap Alpha for Beta correctly", async function () {
+    it("should swap Alpha for Beta correctly with 0.3% fee", async function () {
       const swapAmount = ethers.parseEther("100");
-      const expectedOutput = ethers.parseEther("100"); // (200 * 100) / (100 + 100) = 100
+      const fee = (swapAmount * 3n) / 1000n; // 0.3% fee = 0.3 Token0
+      const amountAfterFee = swapAmount - fee; // 99.7 Token0
+
+      // Expected output: (reserve1 * amountAfterFee) / (reserve0 + amountAfterFee)
+      const expectedOutput = (ethers.parseEther("200") * amountAfterFee) / (ethers.parseEther("100") + amountAfterFee); // (200 * 99.7) / (100 + 99.7) ~= 99.84
 
       // Perform swap
       const tx = await pool.connect(user).swap(token0.getAddress(), swapAmount, token1.getAddress());
 
       // Check user's balances
+      const initialBal0 = ethers.parseEther("900");// 900 Token0 (after adding liquidity)
+      const initialBal1 = ethers.parseEther("800"); // 800 Token1 (after adding liquidity)
+
       const finalBal0 = await token0.balanceOf(user.address);
       const finalBal1 = await token1.balanceOf(user.address);
-      expect(finalBal0).to.equal(ethers.parseEther("800")); // 1000 - 100 (initial) - 100 (swap)
-      expect(finalBal1).to.equal(ethers.parseEther("900")); // 1000 - 200 (initial) + 100 (swap)
+
+      expect(finalBal0).to.equal(initialBal0 - swapAmount); // 900 - 100 = 800
+      expect(finalBal1).to.equal(initialBal1 + expectedOutput); // 800 + 99 = 899
 
       // Check reserves
       const [res0, res1] = await pool.getReserves();
-      expect(res0).to.equal(ethers.parseEther("200")); // 100 + 100
-      expect(res1).to.equal(ethers.parseEther("100")); // 200 - 100
+      expect(res0).to.equal(ethers.parseEther("100") + swapAmount); // 100 + 100 = 200
+      expect(res1).to.equal(ethers.parseEther("200") - expectedOutput); // 200 - 99.84 = 100.16 ~= 100
 
       // Check event
       await expect(tx)
         .to.emit(pool, "Swapped")
         .withArgs(token0.getAddress(), swapAmount, token1.getAddress(), expectedOutput);
     });
-
+	  
     it("should revert for invalid token pairs", async function () {
       await expect(pool.connect(user).swap(token0.getAddress(), 100, token0.getAddress()))
         .to.be.revertedWith("Same tokens");
@@ -195,18 +203,34 @@ describe("Pool Contract", function () {
 
     it("should calculate correct output for Token0 to Token1", async function () {
       const amountIn = ethers.parseEther("100");
+      const fee = (amountIn * 3n) / 1000n; // 0.3% fee = 0.3 Token0
+      const amountAfterFee = amountIn - fee; // 99.7 Token0
+      const expectedOutput = (ethers.parseEther("200") * amountAfterFee) / (ethers.parseEther("100") + amountAfterFee); // (200 * 99.7) / (100 + 99.7)
       const amountOut = await pool.getAmountOut(token0.getAddress(), amountIn, token1.getAddress());
-      expect(amountOut).to.equal(ethers.parseEther("100")); // (200 * 100) / (100 + 100)
+      expect(amountOut).to.equal(expectedOutput); // (200 * 99.7) / (100 + 99.7) ~= 99.85 ~= 99
     });
 
     it("should calculate correct output for Token1 to Token0", async function () {
-      // First swap to change reserves to 200 Token0, 100 Token1
+      // First swap to change reserves to 200 Token0, 100 Token1 cause 0.3% exchange fee
       await pool.connect(user).swap(token0.getAddress(), ethers.parseEther("100"), token1.getAddress());
 
+      const swapAmount = ethers.parseEther("100");
+      const swap_fee = (swapAmount * 3n) / 1000n; // 0.3% fee = 0.3 Token0
+      const amountAfterSwap = swapAmount - swap_fee; // 99.7 Token0
+      //Expected output: (reserve1 * amountAfterFee) / (reserve0 + amountAfterFee)
+      const expectedToken1Output = (ethers.parseEther("200") * amountAfterSwap) / (ethers.parseEther("100") + amountAfterSwap); // (200 * 99.7) / (100 + 99.7) ~= 99.84
+
+      const [res0, res1] = await pool.getReserves();
+      expect(res0).to.equal(ethers.parseEther("100") + swapAmount); // 100 + 100 = 200
+      expect(res1).to.equal(ethers.parseEther("200") - expectedToken1Output); // 200 - 99 = 101
+
       const amountIn = ethers.parseEther("50");
+      const fee = (amountIn * 3n) / 1000n; // 0.3% fee = 0.15 Token1
+      const amountAfterFee = amountIn - fee; // 49.85 Token1
+      const expectedOutput = (ethers.parseEther("200") * amountAfterFee) / (ethers.parseEther("200") - expectedToken1Output + amountAfterFee); // (200 * 49.85) / (100.15 + 49.85) ~= 66.46 ~= 66
+      
       const amountOut = await pool.getAmountOut(token1.getAddress(), amountIn, token0.getAddress());
-      const expected = amountIn * 200n / (100n + 50n); // (200 * 50) / 150 ≈ 66.666...
-      expect(amountOut).to.equal(expected);
+      expect(amountOut).to.equal(expectedOutput);
     });
   });
   describe("withdrawLiquidity", function () {

@@ -31,12 +31,12 @@ contract Pool is LPToken, ReentrancyGuard {
         uint256 indexed amount1
     );
 
-    event RemovedLiquidity(
-    uint256 indexed lpToken,
-    address token0,
-    uint256 indexed amount0,
-    address token1,
-    uint256 indexed amount1
+        event RemovedLiquidity(
+        uint256 indexed lpToken,
+        address token0,
+        uint256 indexed amount0,
+        address token1,
+        uint256 indexed amount1
     );
 
     event Swapped(
@@ -86,30 +86,30 @@ contract Pool is LPToken, ReentrancyGuard {
 
     function addLiquidity(uint256 amount0) public nonReentrant {
     
-    // input validity check
-    require(amount0 > 0, "Amount must be greater than 0");
-    
-    // calculate and mint liquidity tokens
-    uint256 amount1 = getRequiredAmount1(amount0);
-    uint256 amountLP;
-    if (totalSupply() > 0) {
-        amountLP = (amount0 * totalSupply()) / tokenBalances[i_token0_address];
-    } else {
-        amountLP = amount0;
+        // input validity check
+        require(amount0 > 0, "Amount must be greater than 0");
+        
+        // calculate and mint liquidity tokens
+        uint256 amount1 = getRequiredAmount1(amount0);
+        uint256 amountLP;
+        if (totalSupply() > 0) {
+            amountLP = (amount0 * totalSupply()) / tokenBalances[i_token0_address];
+        } else {
+            amountLP = amount0;
+        }
+        _mint(msg.sender, amountLP);
+
+        // deposit token0
+        require(i_token0.transferFrom(msg.sender, address(this), amount0), "Transfer Alpha failed");
+        tokenBalances[i_token0_address] += amount0;
+        
+        // deposit token1
+        require(i_token1.transferFrom(msg.sender, address(this), amount1), "Transfer Beta failed");
+        tokenBalances[i_token1_address] += amount1;
+        
+        emit AddedLiquidity(amountLP, i_token0_address, amount0, i_token1_address, amount1);
+
     }
-    _mint(msg.sender, amountLP);
-
-    // deposit token0
-    require(i_token0.transferFrom(msg.sender, address(this), amount0), "Transfer Alpha failed");
-    tokenBalances[i_token0_address] += amount0;
-    
-    // deposit token1
-    require(i_token1.transferFrom(msg.sender, address(this), amount1), "Transfer Beta failed");
-    tokenBalances[i_token1_address] += amount1;
-    
-    emit AddedLiquidity(amountLP, i_token0_address, amount0, i_token1_address, amount1);
-
-}
     function withdrawLiquidity(uint256 amount0) public nonReentrant{
         require(amount0 > 0, "Amount must be greater than 0");
         require(balanceOf(msg.sender) >= amount0, "Not enough LP tokens");
@@ -148,17 +148,16 @@ contract Pool is LPToken, ReentrancyGuard {
 
     }
 
-        function getAmountOut(address tokenIn, uint256 amountIn, address tokenOut) public view returns (uint256) {
+    function getAmountOut(address tokenIn, uint256 amountIn, address tokenOut) public view returns (uint256) {
         uint256 balanceOut = tokenBalances[tokenOut];
         uint256 balanceIn = tokenBalances[tokenIn];
 
         require(balanceIn > 0, "Insufficient input amount");
         require(amountIn > 0 && balanceOut > 0, "Insufficient liquidity");
-        
-        uint256 amountOut = (balanceOut * amountIn) / (balanceIn + amountIn);
-        //uint256 amountInWithFee = amountIn * 99; // 0.3% fee
-        //uint256 amountOut = (balanceOut * amountIn)+ amountInWithFee / (balanceIn + amountIn);
-        return amountOut;
+
+        uint256 amountInWithFee = amountIn * 997;
+	    uint256 amountOut = (balanceOut * amountInWithFee) / (balanceIn * 1000 + amountInWithFee);
+	return amountOut;
 
     }
 
