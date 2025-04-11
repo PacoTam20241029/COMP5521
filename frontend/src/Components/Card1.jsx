@@ -21,7 +21,7 @@ function Card1() {
   /* balance related */
   const [balance0, setBalance0] = useState(0);
   const [balance1, setBalance1] = useState(0);
-  const [poolInfo, setPoolInfo] = useState({ token0Balance: '0', token1Balance: '0' });
+  const [poolInfo, setPoolInfo] = useState({ token0Balance: '1', token1Balance: '3' });
 
   /* swap related */
   const [fromToken, setFromToken] = useState('ALPHA');
