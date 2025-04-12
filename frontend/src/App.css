@@ -83,16 +83,36 @@ button {
 }
 
 button.primary {
-  color: white;
-  background: linear-gradient(#30bddc 0%, #5189e1 100%);
+  color: #630051;
+  background: linear-gradient(#17869e 0%, #72e2c9 100%);
+  border-radius: 10px;
+  padding: 10px 20px;
+  border: none;
+}
+
+.primary:hover {
+  background: linear-gradient(#075b5e 0%, #099ddb 100%);
+  transform: scale(1.05); /* Slight zoom effect on hover */
+  transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
 }
 
 button.secondary {
   background-color: white;
+  color: #000000;
+  border-radius: 10px;
+  padding: 10px 20px;
+  border: none;
+}
+
+button.secondary:hover {
+  background-color: #f0f0f0; /* Light gray background on hover */
+  color: #000000; /* Black text color on hover */
+  transform: scale(1.05); /* Slight zoom effect */
+  transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
 }
 
 button.secondary span {
-  background-image: linear-gradient(60deg, #30bddc, #5189e1);;
+  background-image: linear-gradient(60deg, #b55518, #631879);
   color: transparent;
   background-clip: text;
 }
@@ -360,7 +380,7 @@ p {
 }
 
 .gradient-border {
-  background: linear-gradient(#131330 0 0 ) padding-box, linear-gradient(to right, transparent, #30bddc) border-box;
+  background: linear-gradient(#053444 0 0 ) padding-box, linear-gradient(to right, transparent, #b8ad15) border-box;
   border-radius: 10px;
   background-origin: border-box;
   background-clip: padding-box, border-box;
@@ -379,6 +399,7 @@ p {
   font-weight: 500;
   line-height: 43px;
   margin-top: 30px;
+  margin-bottom: 20px;
 }
 
 @media only screen and (max-width: 768px) { 
@@ -413,7 +434,7 @@ align-items: stretch;
   background-color: #131330;
   color: #9f9fc8;
   border-radius: 10px;
-  background: linear-gradient(#131330 0 0) padding-box, linear-gradient(to top left, transparent, #30bddc) border-box;
+  background: linear-gradient(#053444 0 0) padding-box, linear-gradient(to top left, transparent, #b8ad15) border-box;
   background-origin: border-box;
   background-clip: padding-box, border-box;
   border: double 1px transparent;

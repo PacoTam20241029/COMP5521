@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu"; // Ensure this is the correct import for your MenuIcon
-// import "./header.css"; // Import your CSS file for styling
+import "./header.css"; // Import your CSS file for styling
 
 const Header = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -13,10 +13,14 @@ const Header = () => {
   return (
     <>
       <div className="header-container">
-        <div className="logo">TOKSWAP</div>
+      <div className="logo">
+        <Link to="/" className="logo-text" >
+          TOKSWAP
+        </Link>
+      </div>
         <div className="menu">
           <div className="menu-links">
-            <Link to="/">App</Link>
+            <Link to="/card">App</Link>
             <Link to="/">Products</Link>
             <Link to="/">Build</Link>
             <Link to="/">Careers</Link>
@@ -36,7 +40,7 @@ const Header = () => {
       {isExpanded && (
         <div className="menu-overlay">
           <div className="menu-links">
-            <Link to="/">App</Link>
+            <Link to="/card">App</Link>
             <Link to="/">Products</Link>
             <Link to="/">Build</Link>
             <Link to="/">Careers</Link>
