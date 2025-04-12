@@ -250,56 +250,56 @@ function Card1() {
     // Fetch balance for `fromToken`
     const fetchBalance0 = async () => {
       if (!contracts || !account) return;
-  
+ 
       let balance;
       switch (fromToken) {
         case "ALPHA":
-          balance = await contracts.token0.balanceOf(account);
+          balance = await contracts.token0.contract.balanceOf(account);
           break;
         case "BETA":
-          balance = await contracts.token1.balanceOf(account);
+          balance = await contracts.token1.contract.balanceOf(account);
           break;
         case "POLY":
-          balance = await contracts.token2.balanceOf(account);
+          balance = await contracts.token2.contract.balanceOf(account);
           break;
         case "UST":
-          balance = await contracts.token3.balanceOf(account);
+          balance = await contracts.token3.contract.balanceOf(account);
           break;
         case "X":
-          balance = await contracts.token4.balanceOf(account);
+          balance = await contracts.token4.contract.balanceOf(account);
           break;
         default:
           balance = 0;
       }
-  
+      balance = ethers.formatEther(balance)
       setBalance0(balance.toString());
     };
   
     // Fetch balance for `toToken`
     const fetchBalance1 = async () => {
       if (!contracts || !account) return;
-  
+
       let balance;
       switch (toToken) {
         case "ALPHA":
-          balance = await contracts.token0.balanceOf(account);
+          balance = await contracts.token0.contract.balanceOf(account);
           break;
-        case "BETA":
-          balance = await contracts.token1.balanceOf(account);
+	      case "BETA":
+          balance = await contracts.token1.contract.balanceOf(account);
           break;
         case "POLY":
-          balance = await contracts.token2.balanceOf(account);
+          balance = await contracts.token2.contract.balanceOf(account);
           break;
         case "UST":
-          balance = await contracts.token3.balanceOf(account);
+          balance = await contracts.token3.contract.balanceOf(account);
           break;
         case "X":
-          balance = await contracts.token4.balanceOf(account);
+          balance = await contracts.token4.contract.balanceOf(account);
           break;
         default:
           balance = 0;
       }
-  
+      balance = ethers.formatEther(balance)
       setBalance1(balance.toString());
     };
   
@@ -312,7 +312,17 @@ function Card1() {
     useEffect(() => {
       fetchBalance1();
     }, [toToken]);
-  
+
+
+  const TOKEN_MAPPING = {
+    ALPHA: 0,
+    BETA: 1,
+    POLY: 2,
+    UST: 3,
+    X: 4
+  };
+
+  const getBalanceKey = (token) => `token${TOKEN_MAPPING[token]}Balance`;	
   return (
     <div className="card">
       <header className="card-header">
@@ -325,18 +335,18 @@ function Card1() {
         style={{ width: "50rem"}}
         className="mb-2"
       >
-      <Card.Body className="card-body">
-        <Card.Title>Liquidity Pool Balances</Card.Title>
-        <Row>
-        <Card.Text as={Col} >
-          {poolInfo.token0Balance} {fromToken}
-        </Card.Text>
-        <Card.Text as={Col}>
-          {poolInfo.token1Balance} {toToken}
-        </Card.Text>
-        </Row>
-      </Card.Body>
-    </Card>
+        <Card.Body className="card-body">
+          <Card.Title>Liquidity Pool Balances</Card.Title>
+          <Row>
+            <Card.Text as={Col}>
+              {poolInfo[getBalanceKey(fromToken)]} {fromToken}
+            </Card.Text>
+            <Card.Text as={Col}>
+              {poolInfo[getBalanceKey(toToken)]} {toToken}
+            </Card.Text>
+          </Row>
+        </Card.Body>
+      </Card>
 
       <Card
         border="info"
