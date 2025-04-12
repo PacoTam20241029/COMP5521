@@ -4,6 +4,8 @@ import Footer from './Components/Footer1';
 import Card1 from './Components/Card1'
 import Homepages from './Components/Homepages';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import About from './Components/About';
+import { BlogSection } from './Components/BlogSection';
 
 function App() {
   return (
@@ -13,6 +15,8 @@ function App() {
       <Routes>
         <Route path="/card" element={<Card1 />} />
         <Route path="/" element={<Homepages />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/learn" element={<BlogSection />} />
       </Routes>
 
       <Footer />

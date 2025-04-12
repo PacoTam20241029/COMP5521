@@ -6,7 +6,7 @@ import Logo from "../assets/icons/currency-exchange.svg"
 import {Card, Tabs, Tab, Row, Col, Form, Button} from 'react-bootstrap';
 
 /* Interaction with Backend */
-import { React, useState, useEffect } from 'react';
+import { React, useState} from 'react';
 import { ethers } from 'ethers';  // Import ethers.js library
 import { getAmountOut,getContracts, getPoolInfo, getTokenBalances, getRequiredAmount1, swapTokens, addLiquidity } from '../utils/contract';      // Import helper functions
 
@@ -247,72 +247,6 @@ function Card1() {
     }
   };
 
-    // Fetch balance for `fromToken`
-    const fetchBalance0 = async () => {
-      if (!contracts || !account) return;
-  
-      let balance;
-      switch (fromToken) {
-        case "ALPHA":
-          balance = await contracts.token0.balanceOf(account);
-          break;
-        case "BETA":
-          balance = await contracts.token1.balanceOf(account);
-          break;
-        case "POLY":
-          balance = await contracts.token2.balanceOf(account);
-          break;
-        case "UST":
-          balance = await contracts.token3.balanceOf(account);
-          break;
-        case "X":
-          balance = await contracts.token4.balanceOf(account);
-          break;
-        default:
-          balance = 0;
-      }
-  
-      setBalance0(balance.toString());
-    };
-  
-    // Fetch balance for `toToken`
-    const fetchBalance1 = async () => {
-      if (!contracts || !account) return;
-  
-      let balance;
-      switch (toToken) {
-        case "ALPHA":
-          balance = await contracts.token0.balanceOf(account);
-          break;
-        case "BETA":
-          balance = await contracts.token1.balanceOf(account);
-          break;
-        case "POLY":
-          balance = await contracts.token2.balanceOf(account);
-          break;
-        case "UST":
-          balance = await contracts.token3.balanceOf(account);
-          break;
-        case "X":
-          balance = await contracts.token4.balanceOf(account);
-          break;
-        default:
-          balance = 0;
-      }
-  
-      setBalance1(balance.toString());
-    };
-  
-    // Update balance0 whenever `fromToken` changes
-    useEffect(() => {
-      fetchBalance0();
-    }, [fromToken]);
-  
-    // Update balance1 whenever `toToken` changes
-    useEffect(() => {
-      fetchBalance1();
-    }, [toToken]);
-  
   return (
     <div className="card">
       <header className="card-header">
