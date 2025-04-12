@@ -6,7 +6,7 @@ import Logo from "../assets/icons/currency-exchange.svg"
 import {Card, Tabs, Tab, Row, Col, Form, Button} from 'react-bootstrap';
 
 /* Interaction with Backend */
-import { React, useState} from 'react';
+import { React, useState, useEffect} from 'react';
 import { ethers } from 'ethers';  // Import ethers.js library
 import { getAmountOut,getContracts, getPoolInfo, getTokenBalances, getRequiredAmount1, swapTokens, addLiquidity } from '../utils/contract';      // Import helper functions
 
@@ -247,6 +247,82 @@ function Card1() {
     }
   };
 
+      // Fetch balance for `fromToken`
+      const fetchBalance0 = async () => {
+        if (!contracts || !account) return;
+   
+        let balance;
+        switch (fromToken) {
+          case "ALPHA":
+            balance = await contracts.token0.contract.balanceOf(account);
+            break;
+          case "BETA":
+            balance = await contracts.token1.contract.balanceOf(account);
+            break;
+          case "POLY":
+            balance = await contracts.token2.contract.balanceOf(account);
+            break;
+          case "UST":
+            balance = await contracts.token3.contract.balanceOf(account);
+            break;
+          case "X":
+            balance = await contracts.token4.contract.balanceOf(account);
+            break;
+          default:
+            balance = 0;
+        }
+        balance = ethers.formatEther(balance)
+        setBalance0(balance.toString());
+      };
+    
+      // Fetch balance for `toToken`
+      const fetchBalance1 = async () => {
+        if (!contracts || !account) return;
+  
+        let balance;
+        switch (toToken) {
+          case "ALPHA":
+            balance = await contracts.token0.contract.balanceOf(account);
+            break;
+          case "BETA":
+            balance = await contracts.token1.contract.balanceOf(account);
+            break;
+          case "POLY":
+            balance = await contracts.token2.contract.balanceOf(account);
+            break;
+          case "UST":
+            balance = await contracts.token3.contract.balanceOf(account);
+            break;
+          case "X":
+            balance = await contracts.token4.contract.balanceOf(account);
+            break;
+          default:
+            balance = 0;
+        }
+        balance = ethers.formatEther(balance)
+        setBalance1(balance.toString());
+      };
+
+    // Update balance0 whenever `fromToken` changes
+    useEffect(() => {
+      fetchBalance0();
+    }, [fromToken]);
+  
+    // Update balance1 whenever `toToken` changes
+    useEffect(() => {
+      fetchBalance1();
+    }, [toToken]);
+
+    const TOKEN_MAPPING = {
+      ALPHA: 0,
+      BETA: 1,
+      POLY: 2,
+      UST: 3,
+      X: 4
+    };
+
+  const getBalanceKey = (token) => `token${TOKEN_MAPPING[token]}Balance`;	
+  
   return (
     <div className="card">
       <header className="card-header">
@@ -263,10 +339,10 @@ function Card1() {
         <Card.Title>Liquidity Pool Balances</Card.Title>
         <Row>
         <Card.Text as={Col} >
-          {poolInfo.token0Balance} {fromToken}
+        {poolInfo[getBalanceKey(fromToken)]} {fromToken}
         </Card.Text>
         <Card.Text as={Col}>
-          {poolInfo.token1Balance} {toToken}
+        {poolInfo[getBalanceKey(toToken)]} {toToken}
         </Card.Text>
         </Row>
       </Card.Body>
@@ -337,7 +413,7 @@ function Card1() {
                                       type="number"
                                       placeholder="0"
                                       value={toAmount}
-                                      disabled
+                                      
                     />
                   </Col>
                   <Col>
@@ -425,6 +501,63 @@ function Card1() {
                   ) : (
                       <Button variant="outline-info" size="lg" style={{margin:"1rem"}} onClick={handleAddLiquidity}>
                           Add Liquidity
+                      </Button>
+                  )}
+              </Form>
+            </Tab>
+            <Tab eventKey="withdraw" title="Withdraw Liquidity">
+              <Form style={{padding:"1rem"}}>
+                  <div>First Token</div>
+                  <Row style={{padding:"1rem"}}>
+                      <Col xs={9}>
+                          <Form.Control 
+                              size="lg"
+                              type="number"
+                              placeholder="0"
+                              value={token0Amount}
+                              onChange={handleToken0AmountChange}
+                              min="0"
+                          />
+                      </Col>
+                      <Col>
+                          <Form.Select size="lg">
+                              <option value="ALPHA">ALPHA</option>
+                              <option value="BETA">BETA</option>
+                              <option value="POLY">POLY</option>
+                              <option value="UST">UST</option>
+                              <option value="X">X</option>
+                          </Form.Select>
+                      </Col>
+                  </Row>
+                  <div style={{padding:'1rem', textAlign: 'center'}}>
+                    <span className="span-plus">-</span>
+                  </div>
+                  <div>Second Token</div>
+                  <Row style={{padding:"1rem"}}>
+                      <Col xs={9}>
+                          <Form.Control 
+                              size="lg"
+                              type="number"
+                              placeholder="0"
+                              value={token1Amount}
+                          />
+                      </Col>
+                      <Col>
+                          <Form.Select size="lg">
+                              <option value="BETA">BETA</option>
+                              <option value="POLY">POLY</option>
+                              <option value="UST">UST</option>
+                              <option value="X">X</option>
+                          </Form.Select>
+                      </Col>
+                  </Row>
+                  {!isWalletConnected ? (
+                      <Button className="Button-connect-wallet" variant="outline-info" size="lg" style={{margin:"1rem"}} onClick={handleConnectWallet}>
+                          Connect Wallet
+                      </Button>
+                  ) : (
+                      <Button variant="outline-info" size="lg" style={{margin:"1rem"}} onClick={handleAddLiquidity}>
+                          Withdraw Liquidity
                       </Button>
                   )}
               </Form>
