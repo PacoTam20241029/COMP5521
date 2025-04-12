@@ -41,17 +41,27 @@
 
 /* General styles for the card */
 .Card {
-  font-family: Arial, sans-serif;
-  background-color: #1a1a1a; /* Dark background */
-  color: white;
-  /* min-height: 100vh; */
+  background: linear-gradient(135deg, #ff7eb3, #ff758c);
+  color: #ffffff;
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  max-width: 400px;
+  margin: auto;
 }
 
 .card-header {
-  text-align: center;
+  background: linear-gradient(135deg, rgb(137 79 20), rgb(41 111 169));
+  color: #ffffff; /* White text color for contrast */
+  border-radius: 10px; /* Rounded corners */
+  padding: 1.5rem; /* Add padding */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
+  font-family: 'Poppins', sans-serif; /* Modern font */
+  text-align: center; /* Center-align text */
 }
 
 .Card {
@@ -62,9 +72,20 @@
 
 /* Title styling */
 .Card .Card-Title {
-  font-size: 2rem;
-  font-weight: bold;
-  text-align: center;
+  font-size: 2.5rem;
+  font-family: 'Poppins', sans-serif;
+  color: #ffeb3b;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  margin-bottom: 1rem;
+}
+
+/* Image styling */
+.Card img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  border: 3px solid #ffffff;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   margin-bottom: 1rem;
 }
 
@@ -113,18 +134,20 @@
 
 /* Swap button */
 .Button {
-  background-color: transparent;
-  border: 2px solid #0dcaf0;
-  color: #0dcaf0;
-  font-weight: bold;
-  border-radius: 5px;
+  background-color: #ff5722;
+  color: #ffffff;
+  border: none;
+  border-radius: 25px;
   padding: 0.75rem 1.5rem;
-  transition: all 0.3s ease;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .Button:hover {
-  background-color: #0dcaf0;
-  color: #1a1a1a;
+  background-color: #e64a19;
+  transform: scale(1.1);
 }
 
 .Button[disabled] {
@@ -165,4 +188,51 @@
   50% {
     transform: translateY(-5px);
   }
+}
+
+.card-img {
+  background-color: rgb(24, 64, 104); /* New blue color */
+  border-radius: 10px; /* Optional: Rounded corners */
+  padding: 1rem; /* Optional: Add padding */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Optional: Add shadow */
+}
+
+.card-body {
+  background-color: rgb(24, 64, 104); /* New blue color */
+  color: #ffffff; /* White text color for contrast */
+  border-radius: 10px; /* Rounded corners */
+  padding: 2rem; /* Add padding */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Add shadow for depth */
+  font-family: 'Poppins', sans-serif; /* Modern font */
+  text-align: center; /* Center-align text */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add hover animation */
+}
+
+/* Connect Wallet button */
+.Button-connect-wallet {
+  background-color: #007bff; /* Blue background */
+  color: #ffffff; /* White text color */
+  border: none; /* Remove border */
+  border-radius: 25px; /* Rounded corners */
+  padding: 0.75rem 1.5rem; /* Add padding */
+  font-size: 1rem; /* Font size */
+  font-weight: bold; /* Bold text */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth hover effect */
+}
+
+.Button-connect-wallet:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  transform: scale(1.1); /* Slight zoom effect on hover */
+}
+
+.Button-connect-wallet[disabled] {
+  opacity: 0.5; /* Dim the button when disabled */
+  cursor: not-allowed; /* Show not-allowed cursor */
+}
+
+.span-plus {
+  font-size: 2rem; /* Increase the font size */
+  font-weight: bold; /* Make it bold */
+  transition: transform 0.3s ease; /* Add a smooth hover effect */
 }
