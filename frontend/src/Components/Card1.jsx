@@ -8,11 +8,8 @@ import {Card, Tabs, Tab, Row, Col, Form, Button} from 'react-bootstrap';
 /* Interaction with Backend */
 import { React, useState, useEffect} from 'react';
 import { ethers } from 'ethers';  // Import ethers.js library
-<<<<<<< HEAD
-import { getAmountOut,getContracts, getPoolInfo, getTokenBalances, getRequiredAmount1, swapTokens, addLiquidity, addLiquidityMulti, withdrawLiquidityMulti } from '../utils/contract';      // Import helper functions
-=======
 import { getAmountOut,getContracts, getPoolInfo, getTokenBalances, swapTokens, addLiquidityMulti, withdrawLiquidityMulti } from '../utils/contract';      // Import helper functions
->>>>>>> 765142a9 (final version)
+
 
 function Card1() {
 
@@ -135,7 +132,6 @@ function Card1() {
   const handleTokenLPAmountChange = async (e) => {
     const value = e.target.value;
     setLPAmount(value);
-<<<<<<< HEAD
   };
 
   const calculateToken1Amount = async (amount0) => {
@@ -150,8 +146,6 @@ function Card1() {
           console.error("Error calculating token1 amount:", error);
           return '0';
       }
-=======
->>>>>>> 765142a9 (final version)
   };
 
   // const calculateToken1Amount = async (amount0) => {
