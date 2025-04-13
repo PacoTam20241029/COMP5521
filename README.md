@@ -15,8 +15,10 @@ npx hardhat ignition deploy ./ignition/modules/Lock.js
 ```shell
 docker run --name=defi-swap -p 3000:3000 -p 8545:8545 -it comp5521-defi
 docker exec -it defi-swap bash
+```
 
 # Running Frontend in Docker
 ```shell
 cd frontend
 npm start run
+```
