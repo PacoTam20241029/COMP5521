@@ -94,6 +94,9 @@ npm install @mui/icons-material
 cd ~/workspace/frontend
 npm start
 
+if you show error, please check the folder of frontend that node_modules is not exist
+npm install
+
 ## Payment Integration
 ## connect to Hardhat Network
 1. At the workspace directory, run npx hardhat node. This starts a Hardhat network.
