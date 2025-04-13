@@ -67,12 +67,14 @@ export const getTokenBalances = async (contracts, address) => {
         const token2Balance = await contracts.token2.contract.balanceOf(address);
         const token3Balance = await contracts.token3.contract.balanceOf(address);
         const token4Balance = await contracts.token4.contract.balanceOf(address);
+        const LPBanance = await contracts.pool.contract.balanceOf(address);
         return {
             token0: ethers.formatEther(token0Balance),
             token1: ethers.formatEther(token1Balance),
             token2: ethers.formatEther(token2Balance),
             token3: ethers.formatEther(token3Balance),
             token4: ethers.formatEther(token4Balance),
+            LP: ethers.formatEther(LPBanance),
         };
     } catch (error) {
         console.error("Error in getTokenBalances:", error);
@@ -171,3 +173,43 @@ export const addLiquidity = async (contracts, amount0) => {
       throw error;
   }
 };
+
+export const addLiquidityMulti = async (contracts, amount0) => {
+    try {
+        const amount0Wei = ethers.parseEther(amount0.toString());
+        
+        // Approve both tokens
+        await contracts.token0.contract.approve(contracts.pool.address, amount0Wei);
+        await contracts.token1.contract.approve(contracts.pool.address, amount0Wei);
+        await contracts.token2.contract.approve(contracts.pool.address, amount0Wei);
+        await contracts.token3.contract.approve(contracts.pool.address, amount0Wei);
+        await contracts.token4.contract.approve(contracts.pool.address, amount0Wei);
+        
+        // Create an array of 5 amount0Wei values
+        const amounts = Array(5).fill(amount0Wei);
+        // Add liquidity
+        const tx = await contracts.pool.contract.addLiquidityMulti(amounts);
+        await tx.wait();
+        return tx;
+    } catch (error) {
+        console.error("Error in addLiquidityMulti:", error);
+        throw error;
+    }
+  };
+
+  export const withdrawLiquidityMulti = async (contracts, amount0) => {
+    try {
+        const amount0Wei = ethers.parseEther(amount0.toString());
+        
+        // Approve both tokens
+        await contracts.pool.contract.approve(contracts.pool.address, amount0Wei);
+
+        // Add liquidity
+        const tx = await contracts.pool.contract.withdrawLiquidityMulti(amount0Wei);
+        await tx.wait();
+        return tx;
+    } catch (error) {
+        console.error("Error in withdrawLiquidityMulti:", error);
+        throw error;
+    }
+  };

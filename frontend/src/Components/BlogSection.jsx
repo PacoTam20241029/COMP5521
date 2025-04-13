@@ -29,7 +29,7 @@ export const BlogSection = () => {
     <div className="blog-section-container">
       <div className="blog-section-header">
         <h1>
-          Learn More about <span className="higlighted">TokSwap</span>
+          Learn More about <span className="higlighted">DEFI</span>
         </h1>
         <button className="secondary">View More</button>
       </div>

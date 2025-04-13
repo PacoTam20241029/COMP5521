@@ -17,3 +17,19 @@
     transform: scale(1.1); /* Slightly enlarge on hover */
     color: #30bddc; /* Change color on hover */
   }
+  
+  /* Social Media Section */
+.social-media {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.social-media a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.social-media a:hover {
+  color: #007bff;
+}
