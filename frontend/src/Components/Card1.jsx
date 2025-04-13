@@ -134,34 +134,6 @@ function Card1() {
     setLPAmount(value);
   };
 
-  const calculateToken1Amount = async (amount0) => {
-      if (!amount0 || !contracts || isNaN(amount0) || amount0 <= 0) {
-          return '0';
-      }
-
-      try {
-          const result = await getRequiredAmount1(contracts, amount0);
-          return result;
-      } catch (error) {
-          console.error("Error calculating token1 amount:", error);
-          return '0';
-      }
-  };
-
-  // const calculateToken1Amount = async (amount0) => {
-  //     if (!amount0 || !contracts || isNaN(amount0) || amount0 <= 0) {
-  //         return '0';
-  //     }
-
-  //     try {
-  //         const result = await getRequiredAmount1(contracts, amount0);
-  //         return result;
-  //     } catch (error) {
-  //         console.error("Error calculating token1 amount:", error);
-  //         return '0';
-  //     }
-  // };
-
   const handleConnectWallet = async () => {
     try {
         if (!window.ethereum) {
