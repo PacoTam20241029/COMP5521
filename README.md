@@ -11,3 +11,10 @@ REPORT_GAS=true npx hardhat test
 npx hardhat node
 npx hardhat ignition deploy ./ignition/modules/Lock.js
 ```
+# Running Docker
+docker run --name=defi-swap -p 3000:3000 -p 8545:8545 -it comp5521-defi
+docker exec -it defi-swap bash
+
+# Running Frontend in Docker
+cd frontend
+npm start run
