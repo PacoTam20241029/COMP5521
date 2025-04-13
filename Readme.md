@@ -78,7 +78,7 @@ module.exports = {
 };
 
 ## Create a React project: 
-cd ~/workspace
+cd workspace
 npx create-react-app frontend
 cd frontend
 npm install web3 ethers react-bootstrap bootstrap
@@ -91,7 +91,7 @@ npm install @mui/styles
 npm install @mui/icons-material
 
 # Run the React App
-cd ~/workspace/frontend
+cd workspace/frontend
 npm start
 
 if you show error, please check the folder of frontend that node_modules is not exist
@@ -108,7 +108,7 @@ npm install
 7. Click “Save”.
 
 ## Transfer Native Tokens via Script
-cd ~/workspace
+cd workspace
 npx hardhat run scripts/transferDF.js --network localhost
 
 ## Deploy Contracts
