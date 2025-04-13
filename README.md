@@ -22,3 +22,7 @@ docker exec -it defi-swap bash
 cd frontend
 npm start run
 ```
+# Running test script in Docker
+```shell
+npx hardhat test
+```
