@@ -8,7 +8,7 @@ import {Card, Tabs, Tab, Row, Col, Form, Button} from 'react-bootstrap';
 /* Interaction with Backend */
 import { React, useState, useEffect} from 'react';
 import { ethers } from 'ethers';  // Import ethers.js library
-import { getAmountOut,getContracts, getPoolInfo, getTokenBalances, getRequiredAmount1, swapTokens, addLiquidity } from '../utils/contract';      // Import helper functions
+import { getAmountOut,getContracts, getPoolInfo, getTokenBalances, getRequiredAmount1, swapTokens, addLiquidity, addLiquidityMulti, withdrawLiquidityMulti } from '../utils/contract';      // Import helper functions
 
 function Card1() {
 
@@ -21,6 +21,7 @@ function Card1() {
   /* balance related */
   const [balance0, setBalance0] = useState("0");
   const [balance1, setBalance1] = useState("0");
+  const [LP, setLP] = useState("0");
   const [poolInfo, setPoolInfo] = useState({ token0Balance: '1', token1Balance: '3' });
 
   /* swap related */
@@ -32,6 +33,10 @@ function Card1() {
   /* add liquidity related */
   const [token0Amount, setToken0Amount] = useState('');
   const [token1Amount, setToken1Amount] = useState('');
+  const [token2Amount, setToken2Amount] = useState('');
+  const [token3Amount, setToken3Amount] = useState('');
+  const [token4Amount, setToken4Amount] = useState('');
+  const [tokenLPAmount, setLPAmount] = useState('');
   
   // switch token button
   const handleTokenSwitch = () => {
@@ -113,11 +118,19 @@ function Card1() {
     setToken0Amount(value);
     
     if (value && !isNaN(value)) {
-        const token1Amount = await calculateToken1Amount(value);
+        const token1Amount = value;
         setToken1Amount(token1Amount);
+        setToken2Amount(token1Amount);
+        setToken3Amount(token1Amount);
+        setToken4Amount(token1Amount);
     } else {
         setToken1Amount('');
     }
+  };
+
+  const handleTokenLPAmountChange = async (e) => {
+    const value = e.target.value;
+    setLPAmount(value);
   };
 
   const calculateToken1Amount = async (amount0) => {
@@ -154,6 +167,7 @@ function Card1() {
         const balances = await getTokenBalances(initializedContracts, accounts[0]);
         setBalance0(balances.token0);
         setBalance1(balances.token1);
+        setLP(balances.LP)
 
         // get pool info
         const info = await getPoolInfo(initializedContracts);
@@ -211,6 +225,7 @@ function Card1() {
         const balances = await getTokenBalances(contracts, account);
         setBalance0(balances.token0);
         setBalance1(balances.token1);
+        setLP(balances.LP)
 
         // update pool info
         const newPoolInfo = await getPoolInfo(contracts);
@@ -223,18 +238,19 @@ function Card1() {
     }
   };
 
-  const handleAddLiquidity = async () => {
+  const handleAddLiquidityMulti = async () => {
     try {
         if (!contracts || !account) {
             throw new Error("Contracts or account not initialized");
         }
         
-        await addLiquidity(contracts, token0Amount);
+        await addLiquidityMulti(contracts, token0Amount);
 
         // update balance
         const balances = await getTokenBalances(contracts, account);
-        setBalance0(balances.token0);
-        setBalance1(balances.token1);
+        fetchBalance0();
+        fetchBalance1();
+        setLP(balances.LP)
 
         // update pool info
         const newPoolInfo = await getPoolInfo(contracts);
@@ -244,6 +260,31 @@ function Card1() {
     } catch (error) {
         console.error("Detailed error:", error);
         alert(`Failed to add liquidity: ${error.message}`);
+    }
+  };
+
+  const handleWithdrawLiquidityMulti = async () => {
+    try {
+        if (!contracts || !account) {
+            throw new Error("Contracts or account not initialized");
+        }
+        
+        await withdrawLiquidityMulti(contracts, tokenLPAmount);
+
+        // update balance
+        const balances = await getTokenBalances(contracts, account);
+        fetchBalance0();
+        fetchBalance1();
+        setLP(balances.LP)
+
+        // update pool info
+        const newPoolInfo = await getPoolInfo(contracts);
+        setPoolInfo(newPoolInfo);
+
+        alert("Liquidity withdraw successfully!");
+    } catch (error) {
+        console.error("Detailed error:", error);
+        alert(`Failed to withdraw liquidity: ${error.message}`);
     }
   };
 
@@ -450,7 +491,7 @@ function Card1() {
             </Tab>
             <Tab eventKey="liquidity" title="Provide Liquidity">
               <Form style={{padding:"1rem"}}>
-                  <div>First Token</div>
+                  <div>Token 1</div>
                   <Row style={{padding:"1rem"}}>
                       <Col xs={9}>
                           <Form.Control 
@@ -465,17 +506,10 @@ function Card1() {
                       <Col>
                           <Form.Select size="lg">
                               <option value="ALPHA">ALPHA</option>
-                              <option value="BETA">BETA</option>
-                              <option value="POLY">POLY</option>
-                              <option value="UST">UST</option>
-                              <option value="X">X</option>
                           </Form.Select>
                       </Col>
                   </Row>
-                  <div style={{padding:'1rem', textAlign: 'center'}}>
-                    <span className="span-plus">+</span>
-                  </div>
-                  <div>Second Token</div>
+                  <div>Token 2</div>
                   <Row style={{padding:"1rem"}}>
                       <Col xs={9}>
                           <Form.Control 
@@ -488,8 +522,53 @@ function Card1() {
                       <Col>
                           <Form.Select size="lg">
                               <option value="BETA">BETA</option>
+                          </Form.Select>
+                      </Col>
+                  </Row>
+                  <div>Token 3</div>
+                  <Row style={{padding:"1rem"}}>
+                      <Col xs={9}>
+                          <Form.Control 
+                              size="lg"
+                              type="number"
+                              placeholder="0"
+                              value={token2Amount}
+                          />
+                      </Col>
+                      <Col>
+                          <Form.Select size="lg">
                               <option value="POLY">POLY</option>
+                          </Form.Select>
+                      </Col>
+                  </Row>
+                  <div>Token 4</div>
+                  <Row style={{padding:"1rem"}}>
+                      <Col xs={9}>
+                          <Form.Control 
+                              size="lg"
+                              type="number"
+                              placeholder="0"
+                              value={token3Amount}
+                          />
+                      </Col>
+                      <Col>
+                          <Form.Select size="lg">
                               <option value="UST">UST</option>
+                          </Form.Select>
+                      </Col>
+                  </Row>
+                  <div>Token 5</div>
+                  <Row style={{padding:"1rem"}}>
+                      <Col xs={9}>
+                          <Form.Control 
+                              size="lg"
+                              type="number"
+                              placeholder="0"
+                              value={token4Amount}
+                          />
+                      </Col>
+                      <Col>
+                          <Form.Select size="lg">
                               <option value="X">X</option>
                           </Form.Select>
                       </Col>
@@ -499,7 +578,7 @@ function Card1() {
                           Connect Wallet
                       </Button>
                   ) : (
-                      <Button variant="outline-info" size="lg" style={{margin:"1rem"}} onClick={handleAddLiquidity}>
+                      <Button variant="outline-info" size="lg" style={{margin:"1rem"}} onClick={handleAddLiquidityMulti}>
                           Add Liquidity
                       </Button>
                   )}
@@ -507,47 +586,21 @@ function Card1() {
             </Tab>
             <Tab eventKey="withdraw" title="Withdraw Liquidity">
               <Form style={{padding:"1rem"}}>
-                  <div>First Token</div>
+                  <div>LP Token</div>
                   <Row style={{padding:"1rem"}}>
                       <Col xs={9}>
                           <Form.Control 
                               size="lg"
                               type="number"
                               placeholder="0"
-                              value={token0Amount}
-                              onChange={handleToken0AmountChange}
+                              value={tokenLPAmount}
+                              onChange={handleTokenLPAmountChange}
                               min="0"
                           />
                       </Col>
                       <Col>
                           <Form.Select size="lg">
-                              <option value="ALPHA">ALPHA</option>
-                              <option value="BETA">BETA</option>
-                              <option value="POLY">POLY</option>
-                              <option value="UST">UST</option>
-                              <option value="X">X</option>
-                          </Form.Select>
-                      </Col>
-                  </Row>
-                  <div style={{padding:'1rem', textAlign: 'center'}}>
-                    <span className="span-plus">-</span>
-                  </div>
-                  <div>Second Token</div>
-                  <Row style={{padding:"1rem"}}>
-                      <Col xs={9}>
-                          <Form.Control 
-                              size="lg"
-                              type="number"
-                              placeholder="0"
-                              value={token1Amount}
-                          />
-                      </Col>
-                      <Col>
-                          <Form.Select size="lg">
-                              <option value="BETA">BETA</option>
-                              <option value="POLY">POLY</option>
-                              <option value="UST">UST</option>
-                              <option value="X">X</option>
+                              <option value="LP">LP</option>
                           </Form.Select>
                       </Col>
                   </Row>
@@ -556,7 +609,7 @@ function Card1() {
                           Connect Wallet
                       </Button>
                   ) : (
-                      <Button variant="outline-info" size="lg" style={{margin:"1rem"}} onClick={handleAddLiquidity}>
+                      <Button variant="outline-info" size="lg" style={{margin:"1rem"}} onClick={handleWithdrawLiquidityMulti}>
                           Withdraw Liquidity
                       </Button>
                   )}
@@ -582,6 +635,9 @@ function Card1() {
             </Card.Text>
             <Card.Text as={Col}>
               {balance1} {toToken}
+            </Card.Text>
+            <Card.Text as={Col} >
+              {LP} LP
             </Card.Text>
             </Row>
           </Card.Body>
