@@ -14,17 +14,17 @@ function App() {
     {
       src: wallet1,
       title: "Value",
-      description: "Swap from your own wallet. Be your own bank. No centralized bridges or wrapping assets",
+      description: "Swap tokens directly from your wallet and take full control of your assets. No intermediaries, no centralized bridges—just true financial freedom",
     },
     {
       src: profit1,
       title: "Yield",
-      description: "Provide Liquidity and Earn Yield on your Native Assets with Impermanent Loss Protection",
+      description: "Earn passive income by providing liquidity. Maximize your returns with native assets and enjoy protection against impermanent loss",
     },
     {
       src: insurance1,
       title: "Insurance",
-      description: "Protect your assets with decentralized insurance solutions",
+      description: "Safeguard your investments with decentralized insurance solutions designed to protect your assets in the DeFi ecosystem",
     },
   ];
 

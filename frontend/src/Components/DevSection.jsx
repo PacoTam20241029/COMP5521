@@ -11,8 +11,8 @@ const DevSection = () => {
         <div className="dev-section-text">
           <h2>API SDK</h2>
           <p className="dev-section-description">
-            Our goal is to provide a full ecosystem that makes it easy for
-            developers create and deploy cross-chain applications.
+          Our goal is to provide a complete ecosystem that empowers developers to create and deploy cross-chain features for our application. 
+          Build seamless integrations and enhance the functionality of our app with ease.
           </p>
           <div className="btn-wrapper">
             <button className="primary">

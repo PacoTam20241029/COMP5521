@@ -5,11 +5,11 @@ const DailyStats = () => {
     <div className="daily-stats-container gradient-border">
       <div className="metric-container">
         <span className="metric-title">Tok Swap Price</span>
-        <span className="metric-value">$0.11 USD</span>
+        <span className="metric-value">$0.3 USD</span>
       </div>
       <div className="metric-container">
         <span className="metric-title">Supported</span>
-        <span className="metric-value">9 Chains</span>
+        <span className="metric-value">5 Chains</span>
       </div>
       <div className="metric-container">
         <span className="metric-title">Total Liquidity</span>

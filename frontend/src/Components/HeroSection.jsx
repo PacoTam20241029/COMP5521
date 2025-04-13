@@ -12,23 +12,22 @@ const HeroSection = () => {
       <div className="hero-info-wrapper">
         <div className="hero-info-text">
           <h1>
-            The <span className="highlighted">Decentralized</span> Cross-Chain
-            Exchange
+          The <span className="highlighted">Decentralized</span>
+          Cross-Chain Exchange
           </h1>
           <p className="hero-info-description">
-            It is a long established fact that a reader will be distracted by
-            the readable content of a page when looking at its layout.
+          Trade tokens across multiple chains effortlessly. Experience fast, secure, and transparent DeFi.
           </p>
           <div className="search-container">
             <div className="search-input-wrapper">
               <img className="search" src={search} alt="search" />
               <input
                 className="search-input"
-                placeholder="Search 5000+ tokens across 9 Chains..."
+                placeholder="Search 5000+ tokens across 5 Chains..."
               ></input>
             </div>
             <button className="search-btn primary">
-              <span className="start-swapping">Start Swapping</span>
+              <span className="start-swapping">Start Trading</span>
             </button>
           </div>
           <div className="social-links-container">

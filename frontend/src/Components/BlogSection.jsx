@@ -7,21 +7,21 @@ import BlogCard from "../Components/BlogCard";
 export const BlogSection = () => {
   const blogs = [
     {
-      title: "How to buy ThorChain",
+      title: "What is the Blockchain?",
       description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        "Explore the fundamentals of blockchain technology and understand how it powers decentralized systems. Learn why it's considered the backbone of cryptocurrencies and the future of secure digital transactions.",
       imgUrl: blockchain1,
     },
     {
-      title: "How to buy ThorChain",
+      title: "How to use Our App",
       description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        "Get started with our app and unlock the power of decentralized finance. Follow our step-by-step guide to swap tokens, provide liquidity, and manage your wallet effortlessly.",
       imgUrl: blockchain2,
     },
     {
-      title: "How to buy ThorChain",
+      title: "What is the LP token and Balance?",
       description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        "Discover the role of LP tokens in liquidity pools and how they represent your share of the pool. Learn how to track your balances and maximize your rewards in the DeFi ecosystem.",
       imgUrl: blockchain3,
     },
   ];
